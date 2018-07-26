@@ -39,4 +39,6 @@ conf.json
 .svn/*
 .idea/*
 pid.txt
+/src/github.com
+/src/golang.org
 
