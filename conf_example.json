@@ -1,0 +1,82 @@
+{
+
+  "//": "模板存放路径,html后缀名",
+  "TemplateUrl": "/template",
+
+  "//": "静态文件模板存放路径",
+  "StaticFilePath": "/www",
+
+  "//": "纯静态网站",
+  "IsAllStatic": 0,
+
+  "//": "网站监听端口",
+  "WebPort": 80,
+
+  "//": "https服务器设置",
+  "TLS": {
+    "Open": 0,
+    "Domain": "name1.domain.com,name2.domain.com",
+    "Email": "admin@domain.com"
+  },
+
+  "//": "MYSQL数据库设置",
+  "Mysql": {
+    "//": "是否开启mysql数据库",
+    "key": true,
+
+    "//": "默认数据库",
+    "Default": {
+      "Username": "username",
+      "Password": "password",
+      "Host": "xxx.xxx.xxx",
+      "Port": "3306",
+      "Dbname": "dbname",
+      "Socket": ""
+    }
+  },
+
+  "//": "redis 数据库设置",
+  "Redis": {
+    "//": "是否使用redis数据库",
+    "key": false,
+
+    "Host": "redis.domain.com",
+    "Port": "6379",
+    "Dbname": "n",
+    "Password": ""
+  },
+
+  "//": "session保存类型: memory / redis",
+  "SessionType": "memory",
+
+  "//": "Session的名称前缀",
+  "SessionName": "_SessionName",
+
+  "//": "session声生命周期(秒)",
+  "SessionLifeTime": 360,
+
+  "//": "session Redis 设置, 如果设置redis保存session,就必须设置此项",
+  "SessionRedis": {
+      "Host": "redis.domain.com",
+      "Port": "6379",
+      "Dbname": "10",
+      "Password": ""
+  },
+
+  "//": "CAS权限验证服务器,server 为空不启用cas 验证, 白名单可为空",
+  "Cas": {
+    "//": "是否开启cas权限验证",
+    "key": true,
+
+    "//": "cas服务器地址",
+    "Server": "https://cas.domain.com",
+
+    "//": "cas白名单",
+    "WhiteList": ["/favicon.ico", "/logout"]
+  },
+
+  "//": "自定义配置文件, key[string]-value[string]形式保存",
+  "Custom": {
+  }
+
+}
