@@ -4,17 +4,17 @@
   "TemplateUrl": "/template",
 
   "//": "静态文件模板存放路径",
-  "StaticFilePath": "/www",
+  "StaticFilePath": "/static",
 
   "//": "纯静态网站",
-  "IsAllStatic": 0,
+  "IsAllStatic": false,
 
   "//": "网站监听端口",
   "WebPort": 80,
 
   "//": "https服务器设置",
   "TLS": {
-    "Open": 0,
+    "Open": false,
     "Domain": "name1.domain.com,name2.domain.com",
     "Email": "admin@domain.com"
   },
@@ -46,21 +46,28 @@
     "Password": ""
   },
 
-  "//": "session保存类型: memory / redis",
-  "SessionType": "memory",
+  "//": "Session 设置",
+  "Session": {
 
-  "//": "Session的名称前缀",
-  "SessionName": "_SessionName",
+    "//": "",
+    "Key": true,
 
-  "//": "session声生命周期(秒)",
-  "SessionLifeTime": 360,
+    "//": "session保存类型: memory / redis",
+    "SessionType": "memory",
 
-  "//": "session Redis 设置, 如果设置redis保存session,就必须设置此项",
-  "SessionRedis": {
+    "//": "Session的名称前缀",
+    "SessionName": "_SessionName",
+
+    "//": "session声生命周期(秒)",
+    "SessionLifeTime": 360,
+
+    "//": "session Redis 设置, 如果设置redis保存session,就必须设置此项",
+    "SessionRedis": {
       "Host": "redis.domain.com",
       "Port": "6379",
       "Dbname": "10",
       "Password": ""
+    }
   },
 
   "//": "CAS权限验证服务器,server 为空不启用cas 验证, 白名单可为空",
