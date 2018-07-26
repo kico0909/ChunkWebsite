@@ -2,14 +2,14 @@ package view
 
 import (
 	"net/http"
-	"fmt"
 	"middleWare"
+	"utils/ChunkLib/template"
 )
 
 func Index(w http.ResponseWriter, r *http.Request){
 
+	template.RenderHtml(w, "index", nil)
 
-	fmt.Fprint(w, "<a href=\"/logout\">logout</a>")
 }
 
 func Login(w http.ResponseWriter, r *http.Request){
