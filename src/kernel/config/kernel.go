@@ -6,11 +6,18 @@ import (
 	"utils/ChunkLib/fileSystem"
 	"encoding/json"
 )
+type letsEncrypt struct {
+	Domain string `json:"domain"`
+	Email string `json:"email"`
+}
 
 type tlsData struct {
 	Open bool `json:"open"`
-	Domain string `json:"domain"`
-	Email string `json:"email"`
+	LetsEncrypt bool `json:"letsEncrypt"`
+	LetsEncryptOpt letsEncrypt `json:"letsEncryptOpt"`
+	KeyPath string `json:"keyPath"`
+	CertPath string `json:"certPath"`
+
 }
 type mysqlSetOpt struct {
 	Username string `json:"username"`

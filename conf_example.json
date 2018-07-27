@@ -14,9 +14,21 @@
 
   "//": "https服务器设置",
   "TLS": {
-    "Open": false,
-    "Domain": "name1.domain.com,name2.domain.com",
-    "Email": "admin@domain.com"
+
+    "//": "启用https服务器",
+    "Open": true,
+
+    "//": "lets's encrypt 证书自动申请",
+    "LetsEncrypt": false,
+    "LetsEncryptOpt" : {
+      "Domain": "name1.domain.com,name2.domain.com",
+      "Email": "admin@domain.com"
+    },
+
+    "//": "指定https证书",
+    "KeyPath": "./certs/server.key",
+    "CertPath": "./certs/server.pem"
+
   },
 
   "//": "MYSQL数据库设置",
