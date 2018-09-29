@@ -4,19 +4,18 @@ import (
 	"kernel/public"
 	"kernel/config"
 	"kernel/route"
-	"kernel/template"
-	"kernel/session"
-	"kernel/mysql"
-	"kernel/redis"
-	"kernel/cas"
-	"kernel/app"
-	"utils/ChunkLib/fileSystem"
+			"kernel/session"
+	"ChunkLib/fileSystem"
 	"flag"
 	"os/exec"
 	"os"
 	"log"
 	"strconv"
-	"time"
+	"kernel/mysql"
+	"kernel/redis"
+	"kernel/app"
+	"kernel/template"
+	"net/http"
 )
 
 const infoPath string = "./pid.txt"
@@ -24,6 +23,9 @@ const infoPath string = "./pid.txt"
 var deamon = flag.Bool("d", false, "服务器静默运行模式!")
 var Comm = flag.String("c","stop", "服务器执行的操作[ start:启动 | stop:停止 ]")
 
+type RouterType interface {
+	ServeHTTP(http.ResponseWriter, *http.Request)
+}
 
 // 服务器参数处理
 func ArgmentsHandler(){
@@ -41,7 +43,6 @@ func ArgmentsHandler(){
 
 	case "restart":
 		serverStop(loadStartInfos())
-		time.Sleep(2 * time.Second)
 		saveStartInfos(strconv.FormatInt(int64(os.Getpid()), 10))
 		serverStart()
 		break
@@ -57,14 +58,14 @@ func serverStart(){
 	// 读取配置文件
 	public.WebSiteConfig = config.Init()
 
+	// 初始化session
+	session.Init()
+
 	// 初始化配置路由
-	route.Init()
+	router := route.Init()
 
 	// 初始化模板
 	template.Init()
-
-	// 初始化session
-	session.Init()
 
 	// 初始化mysql
 	mysql.Init()
@@ -72,11 +73,8 @@ func serverStart(){
 	// 初始化redis
 	redis.Init()
 
-	// 初始化cas
-	cas.Init()
-
 	// 服务器启动
-	app.ServerStart()	// 服务启动
+	app.ServerStart(router)	// 服务启动
 
 }
 
@@ -137,12 +135,3 @@ func init () {
 	}
 
 }
-
-
-
-
-
-
-
-
-

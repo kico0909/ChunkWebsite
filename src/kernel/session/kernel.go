@@ -2,15 +2,18 @@ package session
 
 import (
 	"kernel/public"
+	_ "github.com/astaxie/beego/session/redis"
 	"github.com/astaxie/beego/session"
-	"encoding/json"
 	"log"
-	"strconv"
 )
 
 var sessionEndName = "_glsessn_"
 
+var sessionSetup session.ManagerConfig
+
 func Init(){
+
+	var err error
 
 	if public.WebSiteConfig.IsAllStatic && !public.WebSiteConfig.Session.Key {
 		return
@@ -29,29 +32,32 @@ func Init(){
 		public.WebSiteConfig.Session.SessionLifeTime = 3600
 	}
 
+	sessionSetup.CookieName = public.WebSiteConfig.Session.SessionName + sessionEndName
+	sessionSetup.Gclifetime = public.WebSiteConfig.Session.SessionLifeTime
+	sessionSetup.EnableSetCookie = true
+
 	// 初始化 session
-	sessionSetup := ""
 	switch public.WebSiteConfig.Session.SessionType{
 
 	case "redis":
-		log.Print("初始化SESSION [ redis ] ! \n\n")
+		log.Println("初始化SESSION [ redis ] !")
 		srHost := public.WebSiteConfig.Session.SessionRedis.Host
 		srPort := public.WebSiteConfig.Session.SessionRedis.Port
 		srNumber := public.WebSiteConfig.Session.SessionRedis.Dbname
 		srPassword := public.WebSiteConfig.Session.SessionRedis.Password
-		sessionSetup = `{"cookieName":"` + public.WebSiteConfig.Session.SessionName + sessionEndName+`","gclifetime":`+(strconv.FormatInt(public.WebSiteConfig.Session.SessionLifeTime, 10))+`,"enableSetCookie":true,"ProviderConfig":"`+srHost+`:`+srPort+`,`+srNumber+`,`+srPassword+`"}`
-		break;
+		sessionSetup.ProviderConfig = srHost+`:`+srPort+`,`+srNumber+`,`+srPassword
+		break
 
 	default:
-		log.Print("初始化SESSION [ memory ] \n\n")
-		sessionSetup = `{"cookieName":"`+public.WebSiteConfig.Session.SessionName+sessionEndName+`","gclifetime":`+(strconv.FormatInt(public.WebSiteConfig.Session.SessionLifeTime, 10))+`,"enableSetCookie":true}`
+		log.Println("初始化SESSION [ memory ]")
 	}
 
 
-	if len(sessionSetup) > 0 {
-		var jsonRes session.ManagerConfig
-		json.Unmarshal([]byte(sessionSetup), &jsonRes)
-		public.Session, _ = session.NewManager(public.WebSiteConfig.Session.SessionType, &jsonRes)
-		go public.Session.GC()
+	public.Session, err = session.NewManager(public.WebSiteConfig.Session.SessionType, &sessionSetup)
+
+	if err != nil {
+		log.Fatalln(err)
 	}
+	go public.Session.GC()
+
 }

@@ -41,4 +41,6 @@ conf.json
 pid.txt
 /src/github.com
 /src/golang.org
+/src/ChunkLib
+
 

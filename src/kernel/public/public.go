@@ -4,9 +4,10 @@ import (
 	// session 的引用, 只支持 memory,cookie,redis,file
 	"github.com/astaxie/beego/session"
 	_"github.com/astaxie/beego/session/redis"
-	"utils/ChunkLib/redis"
-	"utils/ChunkLib/mysql"
+	"ChunkLib/redis"
+	"ChunkLib/mysql"
 	"kernel/config"
+	"ChunkLib/cas"
 )
 
 // 网站基本配置
@@ -21,9 +22,6 @@ var Redis reids.DatabaseRedis
 // Mysql
 var Mysql mysql.DatabaseMysql
 
-
-//func init () {
-//	WebSiteConfig = WebSiteConfig.Init()
-//}
-
+// Cas
+var Cas cas.CasRouter
 

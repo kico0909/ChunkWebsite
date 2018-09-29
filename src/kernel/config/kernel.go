@@ -3,8 +3,9 @@ package config
 import (
 	"io/ioutil"
 	"log"
-	"utils/ChunkLib/fileSystem"
+	"ChunkLib/fileSystem"
 	"encoding/json"
+	"ChunkLib/redis"
 )
 type letsEncrypt struct {
 	Domain string `json:"domain"`
@@ -33,15 +34,13 @@ type mysqlData struct {
 }
 type RedisData struct {
 	Key bool `json:"key"`
-	Host string `json:"host"`
-	Port string `json:"port"`
-	Dbname string `json:"dbname"`
-	Password string `json:"password"`
+	Setup reids.RedisSetupInfo
 }
 type CasData struct {
 	Key bool `json:"key"`
 	Server string `json:"server"`
 	WhiteList []string `json:"whiteList"`
+	Ticket2SessionSaveRedis bool `json:"ticket2SessionSaveRedis"`
 }
 
 type SessionOpt struct {
@@ -49,7 +48,7 @@ type SessionOpt struct {
 	SessionType string `json:"sessionType"`
 	SessionName string `json:"sessionName"`
 	SessionLifeTime int64 `json:"sessionLifeTime"`
-	SessionRedis RedisData `json:"sessionRedis"`
+	SessionRedis reids.RedisSetupInfo `json:"sessionRedis"`
 }
 
 type ConfigData struct {
@@ -67,7 +66,7 @@ type ConfigData struct {
 }
 
 func Init() ConfigData{
-	log.Println("读取配置文件 ...\n")
+	log.Println("读取配置文件 ...")
 
 	var ret ConfigData
 
